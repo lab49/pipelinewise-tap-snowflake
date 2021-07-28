@@ -66,7 +66,7 @@ class SnowflakeConnection:
 
     def open_connection(self):
         """Connect to snowflake database"""
-        return snowflake.connector.connect(
+        conn_obj = snowflake.connector.connect(
             user=self.connection_config['user'],
             password=self.connection_config['password'],
             account=self.connection_config['account'],
@@ -76,6 +76,13 @@ class SnowflakeConnection:
             # Use insecure mode to avoid "Failed to get OCSP response" warnings
             # insecure_mode=True
         )
+        if self.connection_config['role'] is None:
+            return conn_obj
+        else:
+            sql = 'USE ROLE {}'.format(self.connection_config['role'])
+            cursor_obj = conn_obj.cursor()
+            cursor_obj.execute(sql)
+            return conn_obj
 
     @retry_pattern()
     def connect_with_backoff(self):

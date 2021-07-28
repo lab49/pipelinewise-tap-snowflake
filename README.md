@@ -47,15 +47,18 @@ or
      "user": "my_user",
      "password": "password",
      "warehouse": "my_virtual_warehouse",
+     "role": "my_optional_role",
      "tables": "db.schema.table1,db.schema.table2"
    }
    ```
 
-**Note**: `tables` is a mandatory parameter as well to avoid long running catalog discovery process.
+**Note1**: `tables` is a mandatory parameter as well to avoid long running catalog discovery process.
 Please specify fully qualified table and view names and only that ones that you need to extract otherwise you can
 end up with very long running discovery mode of this tap. Discovery mode is analysing table structures but
 Snowflake doesn't like selecting lot of rows from `INFORMATION_SCHEMA` or running `SHOW` commands that returns lot of
 rows. Please be as specific as possible.
+
+**Note2**: `role` is optional. Use when wanting to connect to a role that is not set as the default role for the user.
 
 2. Run it in discovery mode to generate a `properties.json`
 
