@@ -97,7 +97,7 @@ def schema_for_column(c):
         result.format = 'binary'
 
     elif data_type in ARRAY_TYPE:
-        result.type = ['null', 'array']
+        result.type = ['null', 'string']
 
     else:
         result = Schema(None,
